@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для тебя ♡</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;600;700&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8F0;
+    --blush: #F2A7B0;
+    --rose: #E05C78;
+    --wine: #8B2252;
+    --peach: #FFD6C0;
+    --gold: #D4A853;
+    --soft: #FDE8EE;
+    --dark: #3A1A2E;
+    --text: #5C2A42;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark);
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='20'%3E🌸%3C/text%3E%3C/svg%3E"), auto;
+  }
+
+  /* FLOATING PETALS */
+  .petals-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0.18;
+    animation: floatDown linear infinite;
+  }
+  @keyframes floatDown {
+    0% { transform: translateY(-60px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.18; }
+    90% { opacity: 0.15; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* PAGES */
+  .page {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .page.active { display: flex; }
+
+  /* ===== PAGE 1: INTRO ===== */
+  #page-intro {
+    background: radial-gradient(ellipse at 30% 50%, #FFE4ED 0%, var(--cream) 70%);
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .intro-envelope {
+    width: 180px;
+    height: 130px;
+    position: relative;
+    margin: 0 auto 2.5rem;
+    cursor: pointer;
+    animation: floatEnv 3s ease-in-out infinite;
+  }
+  @keyframes floatEnv {
+    0%,100% { transform: translateY(0px) rotate(-2deg); }
+    50% { transform: translateY(-12px) rotate(2deg); }
+  }
+  .env-body {
+    width: 180px;
+    height: 130px;
+    background: linear-gradient(135deg, #fff5f8, #ffe4ed);
+    border: 2px solid var(--blush);
+    border-radius: 6px 6px 10px 10px;
+    box-shadow: 0 8px 30px rgba(224,92,120,0.2), inset 0 1px 0 rgba(255,255,255,0.8);
+    position: absolute;
+    bottom: 0;
+  }
+  .env-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 90px solid transparent;
+    border-right: 90px solid transparent;
+    border-top: 68px solid #F2A7B0;
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(224,92,120,0.3));
+    transition: transform 0.5s ease;
+    transform-origin: top center;
+  }
+  .env-heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.2rem;
+    z-index: 3;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.15); }
+  }
+  .intro-envelope:hover .env-flap { transform: rotateX(-160deg); }
+  .intro-envelope:hover .env-heart { animation: none; font-size: 2.5rem; }
+
+  .intro-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    color: var(--wine);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .intro-sub {
+    font-family: 'Caveat', cursive;
+    font-size: 1.6rem;
+    color: var(--rose);
+    margin-bottom: 2.5rem;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--rose), var(--wine));
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(224,92,120,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .btn-primary:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 12px 28px rgba(224,92,120,0.45); }
+  .btn-primary:active { transform: scale(0.97); }
+
+  /* ===== PAGE 2: LOVE NOTES ===== */
+  #page-notes {
+    background: linear-gradient(160deg, #FFF0F5 0%, #FDE8EE 100%);
+    padding: 3rem 1.5rem;
+    gap: 2rem;
+  }
+  .notes-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: var(--wine);
+    text-align: center;
+  }
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    max-width: 800px;
+    width: 100%;
+  }
+  .note-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.6rem;
+    box-shadow: 0 4px 20px rgba(224,92,120,0.12);
+    border: 1.5px solid rgba(242,167,176,0.3);
+    position: relative;
+    transform: rotate(var(--rot));
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .note-card:hover { transform: rotate(0deg) scale(1.04); box-shadow: 0 12px 35px rgba(224,92,120,0.22); }
+  .note-icon { font-size: 2rem; margin-bottom: 0.6rem; }
+  .note-text {
+    font-family: 'Caveat', cursive;
+    font-size: 1.2rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .note-card::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 16px;
+    background: rgba(242,167,176,0.5);
+    border-radius: 3px;
+  }
+
+  /* ===== PAGE 3: GAME ===== */
+  #page-game {
+    background: linear-gradient(135deg, #2A0A1E 0%, #3D1230 50%, #1A0A2E 100%);
+    padding: 2rem 1rem;
+    gap: 1.5rem;
+  }
+  .game-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--peach);
+    text-align: center;
+  }
+  .game-sub {
+    font-family: 'Caveat', cursive;
+    font-size: 1.3rem;
+    color: var(--blush);
+    text-align: center;
+    margin-top: -0.5rem;
+  }
+  .game-area {
+    position: relative;
+    width: min(400px, 92vw);
+    height: min(400px, 92vw);
+    border-radius: 20px;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(242,167,176,0.2);
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(224,92,120,0.15), inset 0 0 40px rgba(0,0,0,0.3);
+    user-select: none;
+  }
+  .star-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle 2s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0; } 50% { opacity: 0.8; }
+  }
+  .falling-obj {
+    position: absolute;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.1s;
+    z-index: 5;
+    line-height: 1;
+    filter: drop-shadow(0 2px 6px rgba(224,92,120,0.4));
+  }
+  .falling-obj:hover { transform: scale(1.2); }
+  .pop-particle {
+    position: absolute;
+    pointer-events: none;
+    font-size: 1rem;
+    z-index: 6;
+    animation: popOut 0.5s ease-out forwards;
+  }
+  @keyframes popOut {
+    0%   { opacity: 1; transform: translate(0,0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3); }
+  }
+
+  .game-ui {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .score-box {
+    text-align: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(242,167,176,0.2);
+    border-radius: 12px;
+    padding: 0.7rem 1.4rem;
+  }
+  .score-label { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: var(--blush); letter-spacing: 0.1em; text-transform: uppercase; }
+  .score-val { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--peach); }
+
+  .btn-game {
+    background: linear-gradient(135deg, var(--rose), #C0395A);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-family: 'Caveat', cursive;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(224,92,120,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-game:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(224,92,120,0.5); }
+
+  .game-msg {
+    font-family: 'Caveat', cursive;
+    font-size: 1.25rem;
+    color: var(--blush);
+    text-align: center;
+    min-height: 2rem;
+  }
+
+  /* ===== PAGE 4: ENDING ===== */
+  #page-end {
+    background: radial-gradient(ellipse at center, #FFE8F0 0%, var(--cream) 60%);
+    padding: 3rem 2rem;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  .end-hearts { font-size: 3rem; animation: heartBounce 1s ease-in-out infinite alternate; }
+  @keyframes heartBounce { from { transform: scale(1); } to { transform: scale(1.2) rotate(5deg); } }
+  .end-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: var(--wine);
+    line-height: 1.2;
+  }
+  .end-poem {
+    font-family: 'Caveat', cursive;
+    font-size: 1.4rem;
+    color: var(--text);
+    line-height: 2;
+    max-width: 480px;
+    background: white;
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 6px 25px rgba(224,92,120,0.15);
+    border: 2px solid rgba(242,167,176,0.25);
+    position: relative;
+  }
+  .end-poem::before { content: '❝'; position: absolute; top: -1rem; left: 1.5rem; font-size: 3rem; color: var(--blush); font-family: 'Playfair Display', serif; }
+
+  .photo-grid {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .memory-card {
+    width: 110px; height: 110px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--soft), var(--peach));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    box-shadow: 0 4px 15px rgba(224,92,120,0.15);
+    border: 2px solid rgba(242,167,176,0.3);
+    cursor: default;
+    transition: transform 0.3s;
+    gap: 0.3rem;
+  }
+  .memory-card:hover { transform: scale(1.08) rotate(-2deg); }
+  .memory-card span { font-family: 'Caveat', cursive; font-size: 0.85rem; color: var(--text); }
+
+  /* NAV DOTS */
+  .nav-dots {
+    position: fixed;
+    right: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    z-index: 100;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(224,92,120,0.25);
+    border: 1.5px solid rgba(224,92,120,0.4);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .dot.active { background: var(--rose); transform: scale(1.3); }
+
+  /* TRANSITION */
+  .fade-in { animation: fadeIn 0.7s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* CONFETTI */
+  .confetti-piece {
+    position: fixed;
+    width: 8px; height: 8px;
+    z-index: 999;
+    animation: confettiFall linear forwards;
+    border-radius: 1px;
+    pointer-events: none;
+  }
+  @keyframes confettiFall {
+    0% { opacity: 1; transform: translateY(-20px) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+  }
+
+  /* GAME OVERLAY */
+  .game-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(20,5,18,0.88);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 10;
+    border-radius: 20px;
+  }
+  .overlay-emoji { font-size: 4rem; }
+  .overlay-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--peach); text-align: center; }
+  .overlay-sub { font-family: 'Caveat', cursive; font-size: 1.2rem; color: var(--blush); text-align: center; }
+
+  @media (max-width: 480px) {
+    .notes-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- FLOATING PETALS -->
+<div class="petals-bg" id="petalsBg"></div>
+
+<!-- NAV DOTS -->
+<div class="nav-dots">
+  <div class="dot active" onclick="goPage(0)"></div>
+  <div class="dot" onclick="goPage(1)"></div>
+  <div class="dot" onclick="goPage(2)"></div>
+  <div class="dot" onclick="goPage(3)"></div>
+</div>
+
+<!-- PAGE 1: INTRO -->
+<div class="page active fade-in" id="page-intro">
+  <div class="intro-envelope" onclick="openEnvelope()">
+    <div class="env-body"></div>
+    <div class="env-flap" id="envFlap"></div>
+    <div class="env-heart">💌</div>
+  </div>
+  <h1 class="intro-title">Это — для тебя,<br><em>мой любимый</em></h1>
+  <p class="intro-sub">нажми на конверт, чтобы начать ✨</p>
+  <button class="btn-primary" onclick="goPage(1)">Открыть подарок 🎁</button>
+</div>
+
+<!-- PAGE 2: LOVE NOTES -->
+<div class="page fade-in" id="page-notes">
+  <h2 class="notes-title">Вещи, которые я<br>в тебе обожаю</h2>
+  <div class="notes-grid" id="notesGrid"></div>
+  <button class="btn-primary" onclick="goPage(2)">Играть в игру 🎮</button>
+</div>
+
+<!-- PAGE 3: GAME -->
+<div class="page" id="page-game">
+  <h2 class="game-title">Лови сердечки! 💕</h2>
+  <p class="game-sub">Собери как можно больше до конца времени</p>
+  <div class="game-ui">
+    <div class="score-box">
+      <div class="score-label">Счёт</div>
+      <div class="score-val" id="scoreVal">0</div>
+    </div>
+    <button class="btn-game" id="startBtn" onclick="startGame()">Начать ▶</button>
+    <div class="score-box">
+      <div class="score-label">Время</div>
+      <div class="score-val" id="timerVal">30</div>
+    </div>
+  </div>
+  <div class="game-area" id="gameArea">
+    <div class="star-bg" id="starBg"></div>
+    <div id="objectsContainer" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div>
+    <div class="game-overlay" id="gameOverlay">
+      <div class="overlay-emoji">💖</div>
+      <div class="overlay-title">Поймай моё сердце!</div>
+      <div class="overlay-sub">Нажми «Начать» чтобы играть</div>
+    </div>
+
+  </div>
+  <p class="game-msg" id="gameMsg"></p>
+  <button class="btn-primary" onclick="goPage(3)" id="nextBtn" style="display:none;">Дальше →</button>
+</div>
+
+<!-- PAGE 4: ENDING -->
+<div class="page fade-in" id="page-end">
+  <div class="end-hearts">💕</div>
+  <h2 class="end-title">Я так рада,<br>что у меня есть <em>ты</em></h2>
+  <div class="end-poem">
+    С тобой тепло даже в дождь,<br>
+    твой смех — лучшая музыка,<br>
+    а рядом с тобой я<br>
+    просто <strong>счастлива.</strong><br><br>
+    Люблю тебя ❤️
+  </div>
+  <div class="photo-grid">
+    <div class="memory-card">🌅 <span>Наш рассвет</span></div>
+    <div class="memory-card">☕ <span>Кофе на двух</span></div>
+    <div class="memory-card">🎬 <span>Кино вместе</span></div>
+    <div class="memory-card">🌙 <span>Поздний вечер</span></div>
+    <div class="memory-card">🎵 <span>Наши песни</span></div>
+  </div>
+  <button class="btn-primary" onclick="launchConfetti(); goPage(0)">С начала 🔄</button>
+</div>
+
+<script>
+// ===== PETALS =====
+const petalsBg = document.getElementById('petalsBg');
+const petalEmojis = ['🌸','🌺','💮','🌷','❀','✿','🌹'];
+for (let i = 0; i < 22; i++) {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  p.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+  p.style.left = Math.random() * 100 + '%';
+  p.style.animationDuration = (6 + Math.random() * 10) + 's';
+  p.style.animationDelay = (Math.random() * 12) + 's';
+  p.style.fontSize = (0.8 + Math.random() * 0.9) + 'rem';
+  petalsBg.appendChild(p);
+}
+
+// ===== STARS =====
+const starBg = document.getElementById('starBg');
+for (let i = 0; i < 40; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.style.left = Math.random() * 100 + '%';
+  s.style.top = Math.random() * 100 + '%';
+  s.style.animationDelay = (Math.random() * 3) + 's';
+  s.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+  starBg.appendChild(s);
+}
+
+// ===== NOTES =====
+const notes = [
+  { icon: '😂', text: 'Твой смех заразителен и я улыбаюсь когда слышу его' },
+  { icon: '🤗', text: 'Твои объятия — самое безопасное место на свете' },
+  { icon: '🧠', text: 'Ты такой умный и я восхищаюсь тобой каждый день' },
+  { icon: '💪', text: 'Ты сильнее, чем думаешь, и я это вижу' },
+  { icon: '🎭', text: 'Ты делаешь каждый день особенным просто своим присутствием' },
+  { icon: '✨', text: 'Рядом с тобой мир становится ярче и лучше' },
+];
+const rotations = ['-2deg','1.5deg','-1deg','2deg','-1.5deg','0.8deg'];
+const grid = document.getElementById('notesGrid');
+notes.forEach((n, i) => {
+  const card = document.createElement('div');
+  card.className = 'note-card';
+  card.style.setProperty('--rot', rotations[i]);
+  card.innerHTML = `<div class="note-icon">${n.icon}</div><div class="note-text">${n.text}</div>`;
+  grid.appendChild(card);
+});
+
+// ===== PAGE NAV =====
+const pages = ['page-intro','page-notes','page-game','page-end'];
+const dots = document.querySelectorAll('.dot');
+let currentPage = 0;
+
+function goPage(idx) {
+  document.getElementById(pages[currentPage]).classList.remove('active');
+  dots[currentPage].classList.remove('active');
+  currentPage = idx;
+  const pg = document.getElementById(pages[currentPage]);
+  pg.classList.add('active');
+  pg.classList.add('fade-in');
+  dots[currentPage].classList.add('active');
+  setTimeout(() => pg.classList.remove('fade-in'), 800);
+  if (idx === 3) launchConfetti();
+}
+
+// ===== ENVELOPE =====
+function openEnvelope() {
+  document.getElementById('envFlap').style.transform = 'rotateX(-160deg)';
+}
+
+// ===== CONFETTI =====
+function launchConfetti() {
+  const colors = ['#E05C78','#F2A7B0','#FFD6C0','#D4A853','#8B2252','#ff9fb2','#fff'];
+  for (let i = 0; i < 70; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top = '-10px';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.width = (6 + Math.random() * 8) + 'px';
+      c.style.height = (6 + Math.random() * 8) + 'px';
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      c.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4500);
+    }, i * 35);
+  }
+}
+
+// ===== GAME (DOM-based) =====
+const gameArea = document.getElementById('gameArea');
+const container = document.getElementById('objectsContainer');
+let gameRunning = false;
+let score = 0;
+let timeLeft = 30;
+let timerInterval = null;
+let spawnInterval = null;
+let moveInterval = null;
+let domObjects = []; // {el, x, y, vy, vx, isBomb}
+
+const msgs = {
+  0:  'Попробуй ещё раз! 🌸',
+  5:  'Хорошее начало! 💕',
+  10: 'Ты молодец! 🌺',
+  15: 'Отлично! 💖',
+  20: 'Невероятно! ✨',
+  25: 'Ты лучший! 🎉',
+  30: 'Просто WOW!! 🏆💘',
+};
+
+const HEARTS = ['❤️','💕','💖','💗','💓','💝','🌸','⭐','🩷','🫀'];
+const BOMBS  = ['💀','👾','🕷️'];
+
+function spawnObject() {
+  if (!gameRunning) return;
+  const areaW = gameArea.offsetWidth;
+  const areaH = gameArea.offsetHeight;
+  const isBomb = Math.random() < 0.15;
+  const emoji = isBomb
+    ? BOMBS[Math.floor(Math.random() * BOMBS.length)]
+    : HEARTS[Math.floor(Math.random() * HEARTS.length)];
+
+  const el = document.createElement('div');
+  el.className = 'falling-obj';
+  el.textContent = emoji;
+  const size = 28 + Math.random() * 14;
+  el.style.fontSize = size + 'px';
+  const x = Math.random() * (areaW - size - 10) + 5;
+  let y = -size - 5;
+  el.style.left = x + 'px';
+  el.style.top  = y + 'px';
+
+  const obj = {
+    el, x, y,
+    vy: 1.8 + Math.random() * 2,
+    vx: (Math.random() - 0.5) * 0.6,
+    isBomb,
+    wobble: Math.random() * Math.PI * 2,
+  };
+
+  el.addEventListener('click', () => hitObject(obj));
+  el.addEventListener('touchstart', e => { e.preventDefault(); hitObject(obj); }, {passive: false});
+
+  container.appendChild(el);
+  domObjects.push(obj);
+}
+
+function hitObject(obj) {
+  if (!gameRunning || obj.removed) return;
+  obj.removed = true;
+  popParticles(obj.x, obj.y, obj.isBomb);
+  obj.el.remove();
+  domObjects = domObjects.filter(o => o !== obj);
+
+  if (obj.isBomb) {
+    score = Math.max(0, score - 2);
+    shakeScore();
+  } else {
+    score++;
+    const sv = document.getElementById('scoreVal');
+    sv.style.transform = 'scale(1.4)';
+    setTimeout(() => sv.style.transform = '', 150);
+  }
+  document.getElementById('scoreVal').textContent = score;
+}
+
+function popParticles(x, y, isBomb) {
+  const emojis = isBomb ? ['💥','✸','✦'] : ['✨','💫','🌸','💖'];
+  for (let i = 0; i < 6; i++) {
+    const p = document.createElement('div');
+    p.className = 'pop-particle';
+    p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    const angle = (Math.PI * 2 / 6) * i;
+    const dist = 30 + Math.random() * 25;
+    const dx = Math.cos(angle) * dist;
+    const dy = Math.sin(angle) * dist;
+    p.style.setProperty('--dx', dx + 'px');
+    p.style.setProperty('--dy', dy + 'px');
+    p.style.left = (x + 15) + 'px';
+    p.style.top  = (y + 15) + 'px';
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 500);
+  }
+}
+
+function shakeScore() {
+  const el = document.getElementById('scoreVal');
+  el.style.color = '#ff4444';
+  el.style.transform = 'scale(0.8) rotate(-5deg)';
+  setTimeout(() => { el.style.color = ''; el.style.transform = ''; }, 200);
+}
+
+function moveObjects() {
+  if (!gameRunning) return;
+  const areaH = gameArea.offsetHeight;
+  domObjects = domObjects.filter(obj => {
+    if (obj.removed) return false;
+    obj.wobble += 0.04;
+    obj.x += obj.vx + Math.sin(obj.wobble) * 0.4;
+    obj.y += obj.vy;
+    obj.el.style.left = obj.x + 'px';
+    obj.el.style.top  = obj.y + 'px';
+    if (obj.y > areaH + 10) {
+      obj.el.remove();
+      return false;
+    }
+    return true;
+  });
+}
+
+function startGame() {
+  // Clear previous
+  domObjects.forEach(o => o.el.remove());
+  domObjects = [];
+  score = 0;
+  timeLeft = 30;
+  gameRunning = true;
+
+  document.getElementById('scoreVal').textContent = '0';
+  document.getElementById('timerVal').textContent = '30';
+  document.getElementById('timerVal').style.color = '';
+  document.getElementById('gameMsg').textContent = '';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('startBtn').disabled = true;
+  document.getElementById('gameOverlay').style.display = 'none';
+
+  // Spawn every ~800ms (speeds up with score)
+  spawnInterval = setInterval(() => {
+    const rate = Math.max(1, 3 - Math.floor(score / 8));
+    for (let i = 0; i < rate; i++) spawnObject();
+  }, 900);
+
+  // Move objects at 60fps
+  moveInterval = setInterval(moveObjects, 16);
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timerVal').textContent = timeLeft;
+    if (timeLeft <= 5) document.getElementById('timerVal').style.color = '#ff6b6b';
+    if (timeLeft <= 0) endGame();
+  }, 1000);
+}
+
+function endGame() {
+  gameRunning = false;
+  clearInterval(timerInterval);
+  clearInterval(spawnInterval);
+  clearInterval(moveInterval);
+  domObjects.forEach(o => o.el.remove());
+  domObjects = [];
+
+  const overlay = document.getElementById('gameOverlay');
+  overlay.style.display = 'flex';
+
+  let emoji = '💖', msg = 'Молодец!';
+  if (score >= 30)      { emoji = '🏆'; msg = 'Ты лучший в мире!'; }
+  else if (score >= 20) { emoji = '✨'; msg = 'Просто потрясающе!'; }
+  else if (score >= 12) { emoji = '💕'; msg = 'Отличный результат!'; }
+  else if (score >= 6)  { emoji = '🌸'; msg = 'Хорошая попытка!'; }
+  else                  { emoji = '🥺'; msg = 'Попробуй ещё раз?'; }
+
+  overlay.innerHTML = `
+    <div class="overlay-emoji">${emoji}</div>
+    <div class="overlay-title">${score} сердечек!</div>
+    <div class="overlay-sub">${msg}</div>
+  `;
+
+  let finalMsg = '';
+  const thresholds = [0,5,10,15,20,25,30];
+  for (const t of thresholds) { if (score >= t) finalMsg = msgs[t]; }
+  document.getElementById('gameMsg').textContent = finalMsg;
+
+  document.getElementById('startBtn').disabled = false;
+  document.getElementById('nextBtn').style.display = 'inline-block';
+  if (score >= 10) launchConfetti();
+}
+</script>
+</body>
+</html>
